@@ -1,0 +1,188 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Resume',
+      home: ResumeForm(),
+    );
+  }
+}
+
+class ResumeForm extends StatefulWidget {
+  @override
+  _ResumeFormState createState() => _ResumeFormState();
+}
+
+class _ResumeFormState extends State<ResumeForm> {
+  final _formKey = GlobalKey<FormState>();
+  String name = '';
+  String surname = '';
+  String phone = '';
+  String address = '';  
+  String experience = '';
+  String softSkills = '';
+  String hardSkills = '';
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResumePreview(
+            name: name,
+            surname: surname,
+            phone: phone,
+            address: address,  
+            experience: experience,
+            softSkills: softSkills,
+            hardSkills: hardSkills,
+          ),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Resume Form'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Name'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your name';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    name = value ?? '';
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Surname'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your surname';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    surname = value ?? '';
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Phone'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your phone';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    phone = value ?? '';
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Address'), 
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your address';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    address = value ?? '';
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Experience'),
+                  onSaved: (value) {
+                    experience = value ?? '';
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Soft skills'),
+                  onSaved: (value) {
+                    softSkills = value ?? '';
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Hard skills'),
+                  onSaved: (value) {
+                    hardSkills = value ?? '';
+                  },
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _submitForm,
+                  child: Text('Preview'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ResumePreview extends StatelessWidget {
+  final String name;
+  final String surname;
+  final String phone;
+  final String address; 
+  final String experience;
+  final String softSkills;
+  final String hardSkills;
+
+  ResumePreview({
+    required this.name,
+    required this.surname,
+    required this.phone,
+    required this.address, 
+    required this.experience,
+    required this.softSkills,
+    required this.hardSkills,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Resume Preview'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Name: $name'),
+            Text('Surname: $surname'),
+            Text('Phone: $phone'),
+            Text('Address: $address'), 
+            Text('Experience: $experience'),
+            Text('Soft skills: $softSkills'),
+            Text('Hard skills: $hardSkills'),
+          ],
+        ),
+      ),
+    );
+  }
+}
